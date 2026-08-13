@@ -24,6 +24,7 @@ This report answers three questions:
 | 4.0 | Current | Source classification system (`[DOCS]`/`[GOOGLE]`/`[PROTOCOL]`/`[COMMUNITY]`); Sections 16-17 added; 35 commands; 25 behavioral gaps cataloged |
 | 5.0 | 2026-08-11 | Live-doc verification run: headless `status` enum + exit codes resolved; `defaultApprovalMode` enum resolved; plugin `agents/` inconsistency confirmed; CLI brain path + transcript schema verified hands-on (new §18.1); Section 10 rebuilt with full flag/stream reference |
 | 5.1 | 2026-08-11 | Full-brain transcript audit (`scripts/audit_transcripts.py`, 49,586 lines / 33 sessions): `type` enum expanded to 19 values (9 promoted with citations); `status` enum confirmed as `DONE`/`RUNNING`/`ERROR` (the `ACTIVE` guess superseded); evidence saved under `audits/` |
+| 5.2 | 2026-08-13 | Automated schema extraction & validation toolkit created (`antigravity-schemas` / `agy-schema` CLI); 9 Pydantic v2 models + JSON Schemas + live system auditor + sync-doc verification implemented |
 
 ## How This Report Was Built
 

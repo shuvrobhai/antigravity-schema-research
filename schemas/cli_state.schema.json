@@ -1,0 +1,121 @@
+{
+  "$defs": {
+    "InstalledTools": {
+      "properties": {
+        "mcp_servers": {
+          "description": "Installed MCP server names.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Mcp Servers",
+          "type": "array"
+        },
+        "plugins": {
+          "description": "Installed plugin names.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Plugins",
+          "type": "array"
+        }
+      },
+      "title": "InstalledTools",
+      "type": "object"
+    },
+    "ProviderStatus": {
+      "properties": {
+        "id": {
+          "description": "Provider identifier (e.g. 'github', 'google').",
+          "title": "Id",
+          "type": "string"
+        },
+        "status": {
+          "description": "Auth status ('authenticated', 'unauthenticated').",
+          "title": "Status",
+          "type": "string"
+        },
+        "scopes": {
+          "description": "Granted OAuth scopes list.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Scopes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "status"
+      ],
+      "title": "ProviderStatus",
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "$schema": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "JSON Schema URI.",
+      "title": "$Schema"
+    },
+    "runtimes": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "boolean"
+              }
+            ]
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Detected local runtime binary versions.",
+      "title": "Runtimes"
+    },
+    "providers": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/ProviderStatus"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Connected service providers list.",
+      "title": "Providers"
+    },
+    "installed_tools": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/InstalledTools"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Installed MCP servers and plugins breakdown."
+    }
+  },
+  "title": "CLIStateSchema",
+  "type": "object"
+}

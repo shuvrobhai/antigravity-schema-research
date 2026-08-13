@@ -1,0 +1,73 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "timestamp": {
+      "description": "Invocation timestamp (ISO-8601 or epoch).",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "prompt": {
+      "description": "Executed prompt text input.",
+      "title": "Prompt",
+      "type": "string"
+    },
+    "session_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Associated session UUID.",
+      "title": "Session Id"
+    },
+    "conversation_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Active conversation UUID.",
+      "title": "Conversation Id"
+    },
+    "cwd": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Working directory path at execution time.",
+      "title": "Cwd"
+    },
+    "exit_code": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": 0,
+      "description": "Process exit code.",
+      "title": "Exit Code"
+    }
+  },
+  "required": [
+    "timestamp",
+    "prompt"
+  ],
+  "title": "CLIHistoryEntrySchema",
+  "type": "object"
+}

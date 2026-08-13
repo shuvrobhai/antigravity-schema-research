@@ -15,6 +15,10 @@ from .system_config import MasterConfigSchema
 from .projects import ProjectsIndexSchema
 from .desktop_state import DesktopStateSchema
 from .ide_state import IDEStateSchema
+from .rule import RuleFileSchema, RuleDefinition
+from .cli_state import CLIStateSchema
+from .history import CLIHistoryEntrySchema
+from .trusted_hooks import TrustedHooksSchema
 
 __all__ = [
     "SettingsSchema",
@@ -30,4 +34,9 @@ __all__ = [
     "ProjectsIndexSchema",
     "DesktopStateSchema",
     "IDEStateSchema",
+    "RuleFileSchema",
+    "RuleDefinition",
+    "CLIStateSchema",
+    "CLIHistoryEntrySchema",
+    "TrustedHooksSchema",
 ]

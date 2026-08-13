@@ -23,6 +23,10 @@ from .models import (
     ProjectsIndexSchema,
     DesktopStateSchema,
     IDEStateSchema,
+    RuleFileSchema,
+    CLIStateSchema,
+    CLIHistoryEntrySchema,
+    TrustedHooksSchema,
 )
 
 
@@ -135,7 +139,36 @@ class SchemaRegistry:
                 category="Ecosystem App",
                 description="Antigravity IDE app state metadata",
             ),
+            SchemaDescriptor(
+                key="rule",
+                model_cls=RuleFileSchema,
+                filename="rule.schema.json",
+                category="Agent System",
+                description="Behavioral agent rules manifest (AGENTS.md, rules/*.md)",
+            ),
+            SchemaDescriptor(
+                key="cli_state",
+                model_cls=CLIStateSchema,
+                filename="cli_state.schema.json",
+                category="Runtime State",
+                description="CLI installation state manifest (~/.gemini/antigravity-cli/state.json)",
+            ),
+            SchemaDescriptor(
+                key="history",
+                model_cls=CLIHistoryEntrySchema,
+                filename="history_entry.schema.json",
+                category="Runtime State",
+                description="CLI prompt history entry (history.jsonl)",
+            ),
+            SchemaDescriptor(
+                key="trusted_hooks",
+                model_cls=TrustedHooksSchema,
+                filename="trusted_hooks.schema.json",
+                category="Lifecycle",
+                description="Trusted security hook script hashes (trusted_hooks.json)",
+            ),
         ]
+
         for desc in descriptors:
             self.register(desc)
 

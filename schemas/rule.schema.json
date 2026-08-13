@@ -1,0 +1,109 @@
+{
+  "$defs": {
+    "RuleDefinition": {
+      "properties": {
+        "rule_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Unique rule identifier tag (e.g. RULE[user_global]).",
+          "title": "Rule Id"
+        },
+        "description": {
+          "description": "Behavioral constraint or instruction summary.",
+          "title": "Description",
+          "type": "string"
+        },
+        "incorrect_example": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Contrastive bad practice snippet.",
+          "title": "Incorrect Example"
+        },
+        "correct_example": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Contrastive good practice snippet.",
+          "title": "Correct Example"
+        }
+      },
+      "required": [
+        "description"
+      ],
+      "title": "RuleDefinition",
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Rule set name or file header.",
+      "title": "Name"
+    },
+    "scope": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "workspace",
+      "description": "Rule scope ('global', 'workspace', 'plugin').",
+      "title": "Scope"
+    },
+    "rules": {
+      "description": "List of structured rule definitions.",
+      "items": {
+        "$ref": "#/$defs/RuleDefinition"
+      },
+      "title": "Rules",
+      "type": "array"
+    },
+    "content": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Raw rule markdown body.",
+      "title": "Content"
+    }
+  },
+  "title": "RuleFileSchema",
+  "type": "object"
+}

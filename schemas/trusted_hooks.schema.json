@@ -1,0 +1,50 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "trusted_hashes": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Map of script paths to approved SHA-256 hashes.",
+      "title": "Trusted Hashes"
+    },
+    "trusted_scripts": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "List of auto-approved hook script paths.",
+      "title": "Trusted Scripts"
+    },
+    "auto_approve_sandbox": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": false,
+      "description": "Auto-approve hooks executing inside isolated sandbox.",
+      "title": "Auto Approve Sandbox"
+    }
+  },
+  "title": "TrustedHooksSchema",
+  "type": "object"
+}

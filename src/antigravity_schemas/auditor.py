@@ -67,37 +67,24 @@ class SystemAuditor:
                     results.append({"status": "INVALID", "path": str(p), "error": str(e)})
         return results
 
-    def audit_skills(self) -> List[Dict[str, Any]]:
+    def _audit_frontmatters(self, directory: Path, pattern: str, model_cls: Any) -> List[Dict[str, Any]]:
         results = []
-        skills_dir = self.gemini_root / "config" / "skills"
-        if not skills_dir.exists():
+        if not directory.exists():
             return results
-
-        for skill_file in skills_dir.glob("**/SKILL.md"):
+        for md_file in directory.glob(pattern):
             try:
-                content = skill_file.read_text(encoding="utf-8")
-                frontmatter = parse_frontmatter(content)
-                SkillFrontmatterSchema.model_validate(frontmatter)
-                results.append({"status": "VALID", "path": str(skill_file)})
+                frontmatter = parse_frontmatter(md_file.read_text(encoding="utf-8"))
+                model_cls.model_validate(frontmatter)
+                results.append({"status": "VALID", "path": str(md_file)})
             except Exception as e:
-                results.append({"status": "INVALID", "path": str(skill_file), "error": str(e)})
+                results.append({"status": "INVALID", "path": str(md_file), "error": str(e)})
         return results
+
+    def audit_skills(self) -> List[Dict[str, Any]]:
+        return self._audit_frontmatters(self.gemini_root / "config" / "skills", "**/SKILL.md", SkillFrontmatterSchema)
 
     def audit_agents(self) -> List[Dict[str, Any]]:
-        results = []
-        agents_dir = self.gemini_root / "config" / "agents"
-        if not agents_dir.exists():
-            return results
-
-        for agent_file in agents_dir.glob("*.md"):
-            try:
-                content = agent_file.read_text(encoding="utf-8")
-                frontmatter = parse_frontmatter(content)
-                AgentFrontmatterSchema.model_validate(frontmatter)
-                results.append({"status": "VALID", "path": str(agent_file)})
-            except Exception as e:
-                results.append({"status": "INVALID", "path": str(agent_file), "error": str(e)})
-        return results
+        return self._audit_frontmatters(self.gemini_root / "config" / "agents", "*.md", AgentFrontmatterSchema)
 
     def audit_transcripts(self, max_files: int = 5) -> List[Dict[str, Any]]:
         results = []

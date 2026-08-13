@@ -16,41 +16,18 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 
-from .exporter import export_all_schemas
+from .exporter import export_all_schemas, SCHEMA_MAPPING
 from .auditor import SystemAuditor, parse_frontmatter
-from .models import (
-    SettingsSchema,
-    PluginManifestSchema,
-    AgentFrontmatterSchema,
-    SkillFrontmatterSchema,
-    MCPConfigSchema,
-    HooksConfigSchema,
-    TranscriptStepSchema,
-    KeybindingsSchema,
-    StatusLinePayloadSchema,
-    MasterConfigSchema,
-    ProjectsIndexSchema,
-    DesktopStateSchema,
-    IDEStateSchema,
-)
 
 console = Console()
 
 MODEL_MAPPING = {
-    "settings": SettingsSchema,
-    "plugin": PluginManifestSchema,
-    "agent": AgentFrontmatterSchema,
-    "skill": SkillFrontmatterSchema,
-    "mcp": MCPConfigSchema,
-    "hooks": HooksConfigSchema,
-    "transcript": TranscriptStepSchema,
-    "keybindings": KeybindingsSchema,
-    "status_line": StatusLinePayloadSchema,
-    "master_config": MasterConfigSchema,
-    "projects": ProjectsIndexSchema,
-    "desktop_state": DesktopStateSchema,
-    "ide_state": IDEStateSchema,
+    key.replace(".schema.json", "").replace("_step", "").replace("_config", ""): model_cls
+    for key, model_cls in SCHEMA_MAPPING.items()
 }
+MODEL_MAPPING["mcp"] = SCHEMA_MAPPING["mcp_config.schema.json"]
+MODEL_MAPPING["master_config"] = SCHEMA_MAPPING["master_config.schema.json"]
+MODEL_MAPPING["hooks"] = SCHEMA_MAPPING["hooks.schema.json"]
 
 
 def handle_export(args):

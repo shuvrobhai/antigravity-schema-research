@@ -2669,6 +2669,391 @@
       "title": "IDEStateSchema",
       "type": "object"
     }
+  },
+  "rule.schema.json": {
+    "title": "Rule File Manifest Schema",
+    "category": "Shared Core",
+    "model": "RuleFileSchema",
+    "target": "AGENTS.md, GEMINI.md, .agents/rules/*.md",
+    "description": "Behavioral constraints, system rules, and contrastive examples for guiding autonomous AI agent actions.",
+    "file_name": "rule.schema.json",
+    "json_schema": {
+      "$defs": {
+        "RuleDefinition": {
+          "properties": {
+            "rule_id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Unique rule identifier tag (e.g. RULE[user_global]).",
+              "title": "Rule Id"
+            },
+            "description": {
+              "description": "Behavioral constraint or instruction summary.",
+              "title": "Description",
+              "type": "string"
+            },
+            "incorrect_example": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Contrastive bad practice snippet.",
+              "title": "Incorrect Example"
+            },
+            "correct_example": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Contrastive good practice snippet.",
+              "title": "Correct Example"
+            }
+          },
+          "required": [
+            "description"
+          ],
+          "title": "RuleDefinition",
+          "type": "object"
+        }
+      },
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Rule set name or file header.",
+          "title": "Name"
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "workspace",
+          "description": "Rule scope ('global', 'workspace', 'plugin').",
+          "title": "Scope"
+        },
+        "rules": {
+          "description": "List of structured rule definitions.",
+          "items": {
+            "$ref": "#/$defs/RuleDefinition"
+          },
+          "title": "Rules",
+          "type": "array"
+        },
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Raw rule markdown body.",
+          "title": "Content"
+        }
+      },
+      "title": "RuleFileSchema",
+      "type": "object"
+    }
+  },
+  "cli_state.schema.json": {
+    "title": "CLI Installation State Schema",
+    "category": "CLI",
+    "model": "CLIStateSchema",
+    "target": "~/.gemini/antigravity-cli/state.json",
+    "description": "Antigravity CLI installation state manifest tracking detected runtime binary versions, auth provider scopes, and installed tool catalogs.",
+    "file_name": "cli_state.schema.json",
+    "json_schema": {
+      "$defs": {
+        "InstalledTools": {
+          "properties": {
+            "mcp_servers": {
+              "description": "Installed MCP server names.",
+              "items": {
+                "type": "string"
+              },
+              "title": "Mcp Servers",
+              "type": "array"
+            },
+            "plugins": {
+              "description": "Installed plugin names.",
+              "items": {
+                "type": "string"
+              },
+              "title": "Plugins",
+              "type": "array"
+            }
+          },
+          "title": "InstalledTools",
+          "type": "object"
+        },
+        "ProviderStatus": {
+          "properties": {
+            "id": {
+              "description": "Provider identifier (e.g. 'github', 'google').",
+              "title": "Id",
+              "type": "string"
+            },
+            "status": {
+              "description": "Auth status ('authenticated', 'unauthenticated').",
+              "title": "Status",
+              "type": "string"
+            },
+            "scopes": {
+              "description": "Granted OAuth scopes list.",
+              "items": {
+                "type": "string"
+              },
+              "title": "Scopes",
+              "type": "array"
+            }
+          },
+          "required": [
+            "id",
+            "status"
+          ],
+          "title": "ProviderStatus",
+          "type": "object"
+        }
+      },
+      "additionalProperties": true,
+      "properties": {
+        "$schema": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "JSON Schema URI.",
+          "title": "$Schema"
+        },
+        "runtimes": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Detected local runtime binary versions.",
+          "title": "Runtimes"
+        },
+        "providers": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ProviderStatus"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Connected service providers list.",
+          "title": "Providers"
+        },
+        "installed_tools": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/InstalledTools"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Installed MCP servers and plugins breakdown."
+        }
+      },
+      "title": "CLIStateSchema",
+      "type": "object"
+    }
+  },
+  "history_entry.schema.json": {
+    "title": "CLI Prompt History Entry Schema",
+    "category": "CLI",
+    "model": "CLIHistoryEntrySchema",
+    "target": "~/.gemini/antigravity-cli/history.jsonl",
+    "description": "CLI command execution prompt history line recording timestamps, prompts, working directory paths, and exit codes.",
+    "file_name": "history_entry.schema.json",
+    "json_schema": {
+      "additionalProperties": true,
+      "properties": {
+        "timestamp": {
+          "description": "Invocation timestamp (ISO-8601 or epoch).",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "prompt": {
+          "description": "Executed prompt text input.",
+          "title": "Prompt",
+          "type": "string"
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Associated session UUID.",
+          "title": "Session Id"
+        },
+        "conversation_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Active conversation UUID.",
+          "title": "Conversation Id"
+        },
+        "cwd": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Working directory path at execution time.",
+          "title": "Cwd"
+        },
+        "exit_code": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "description": "Process exit code.",
+          "title": "Exit Code"
+        }
+      },
+      "required": [
+        "timestamp",
+        "prompt"
+      ],
+      "title": "CLIHistoryEntrySchema",
+      "type": "object"
+    }
+  },
+  "trusted_hooks.schema.json": {
+    "title": "Trusted Security Hooks Schema",
+    "category": "Shared Core",
+    "model": "TrustedHooksSchema",
+    "target": "~/.gemini/trusted_hooks.json",
+    "description": "Security manifest storing approved hook script paths and cryptographic SHA-256 hashes for terminal execution safety.",
+    "file_name": "trusted_hooks.schema.json",
+    "json_schema": {
+      "additionalProperties": true,
+      "properties": {
+        "trusted_hashes": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Map of script paths to approved SHA-256 hashes.",
+          "title": "Trusted Hashes"
+        },
+        "trusted_scripts": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "List of auto-approved hook script paths.",
+          "title": "Trusted Scripts"
+        },
+        "auto_approve_sandbox": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": false,
+          "description": "Auto-approve hooks executing inside isolated sandbox.",
+          "title": "Auto Approve Sandbox"
+        }
+      },
+      "title": "TrustedHooksSchema",
+      "type": "object"
+    }
   }
 };
         let activeSchemaKey = Object.keys(SCHEMAS_DATA)[0];

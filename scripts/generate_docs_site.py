@@ -99,8 +99,37 @@ SCHEMA_METADATA = {
         "model": "IDEStateSchema",
         "target": "~/.gemini/antigravity-ide/",
         "description": "Antigravity IDE (VS Code fork) state tracking active conversation databases, HTML UI artifacts, and browser session playback recordings."
+    },
+    "rule.schema.json": {
+        "title": "Rule File Manifest Schema",
+        "category": "Shared Core",
+        "model": "RuleFileSchema",
+        "target": "AGENTS.md, GEMINI.md, .agents/rules/*.md",
+        "description": "Behavioral constraints, system rules, and contrastive examples for guiding autonomous AI agent actions."
+    },
+    "cli_state.schema.json": {
+        "title": "CLI Installation State Schema",
+        "category": "CLI",
+        "model": "CLIStateSchema",
+        "target": "~/.gemini/antigravity-cli/state.json",
+        "description": "Antigravity CLI installation state manifest tracking detected runtime binary versions, auth provider scopes, and installed tool catalogs."
+    },
+    "history_entry.schema.json": {
+        "title": "CLI Prompt History Entry Schema",
+        "category": "CLI",
+        "model": "CLIHistoryEntrySchema",
+        "target": "~/.gemini/antigravity-cli/history.jsonl",
+        "description": "CLI command execution prompt history line recording timestamps, prompts, working directory paths, and exit codes."
+    },
+    "trusted_hooks.schema.json": {
+        "title": "Trusted Security Hooks Schema",
+        "category": "Shared Core",
+        "model": "TrustedHooksSchema",
+        "target": "~/.gemini/trusted_hooks.json",
+        "description": "Security manifest storing approved hook script paths and cryptographic SHA-256 hashes for terminal execution safety."
     }
 }
+
 
 
 def build_docs():

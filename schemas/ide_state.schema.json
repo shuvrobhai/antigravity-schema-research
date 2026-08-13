@@ -1,0 +1,89 @@
+{
+  "$defs": {
+    "BrowserRecordingSession": {
+      "properties": {
+        "recording_id": {
+          "description": "UUID of recorded browser session.",
+          "title": "Recording Id",
+          "type": "string"
+        },
+        "frame_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "description": "Total captured JPEG frames.",
+          "title": "Frame Count"
+        },
+        "path": {
+          "description": "Directory path containing frame screenshots.",
+          "title": "Path",
+          "type": "string"
+        }
+      },
+      "required": [
+        "recording_id",
+        "path"
+      ],
+      "title": "BrowserRecordingSession",
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "installation_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Unique installation identifier for Antigravity IDE.",
+      "title": "Installation Id"
+    },
+    "active_conversations_count": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": 0,
+      "description": "Number of active IDE conversation databases (.db).",
+      "title": "Active Conversations Count"
+    },
+    "html_artifacts_count": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": 0,
+      "description": "Number of generated HTML artifact previews in ide/html_artifacts/.",
+      "title": "Html Artifacts Count"
+    },
+    "browser_recordings": {
+      "description": "List of recorded browser interaction playbacks.",
+      "items": {
+        "$ref": "#/$defs/BrowserRecordingSession"
+      },
+      "title": "Browser Recordings",
+      "type": "array"
+    }
+  },
+  "title": "IDEStateSchema",
+  "type": "object"
+}

@@ -19,6 +19,7 @@ from antigravity_schemas.models import (
     MasterConfigSchema,
     ProjectsIndexSchema,
     DesktopStateSchema,
+    IDEStateSchema,
 )
 from antigravity_schemas.exporter import export_all_schemas
 from antigravity_schemas.models.desktop_state import parse_pbtxt_state
@@ -109,11 +110,22 @@ installation_uuid: "666c50bb-b65b-484a-81b4-a911c45ade2a"
         model = DesktopStateSchema.model_validate(parsed)
         self.assertEqual(model.installation_uuid, "666c50bb-b65b-484a-81b4-a911c45ade2a")
 
+    def test_ide_state_valid(self):
+        data = {
+            "installation_id": "ide-uuid-123",
+            "active_conversations_count": 161,
+            "browser_recordings": [
+                {"recording_id": "rec-1", "frame_count": 300, "path": "/path/to/rec"}
+            ]
+        }
+        model = IDEStateSchema.model_validate(data)
+        self.assertEqual(model.active_conversations_count, 161)
+
     def test_export_all_schemas(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
             exported = export_all_schemas(tmp_path)
-            self.assertEqual(len(exported), 12)
+            self.assertEqual(len(exported), 13)
             for filename, path in exported.items():
                 self.assertTrue(path.exists())
                 content = json.loads(path.read_text())

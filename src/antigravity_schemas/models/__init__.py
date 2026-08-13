@@ -14,6 +14,7 @@ from .status_line import StatusLinePayloadSchema
 from .system_config import MasterConfigSchema
 from .projects import ProjectsIndexSchema
 from .desktop_state import DesktopStateSchema
+from .ide_state import IDEStateSchema
 
 __all__ = [
     "SettingsSchema",
@@ -28,4 +29,5 @@ __all__ = [
     "MasterConfigSchema",
     "ProjectsIndexSchema",
     "DesktopStateSchema",
+    "IDEStateSchema",
 ]

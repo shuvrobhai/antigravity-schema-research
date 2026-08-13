@@ -31,6 +31,7 @@ from .models import (
     MasterConfigSchema,
     ProjectsIndexSchema,
     DesktopStateSchema,
+    IDEStateSchema,
 )
 
 console = Console()
@@ -48,6 +49,7 @@ MODEL_MAPPING = {
     "master_config": MasterConfigSchema,
     "projects": ProjectsIndexSchema,
     "desktop_state": DesktopStateSchema,
+    "ide_state": IDEStateSchema,
 }
 
 

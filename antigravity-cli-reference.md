@@ -1318,6 +1318,30 @@ Auto-update can be disabled with the `AGY_CLI_DISABLE_AUTO_UPDATE=true` environm
 | `GEMINI.md` | Workspace context rules |
 | `AGENTS.md` | Workspace agent rules |
 
+### 15.1 System Configuration Manifests & Security Exclusion Classification
+
+#### System Manifests to INCLUDE & AUDIT:
+
+| File Path | Schema Model | Purpose |
+|---|---|---|
+| `~/.gemini/config/config.json` | `MasterConfigSchema` | Master extensibility manifest storing enabled plugin states, global permission grants (allow/deny commands), browser JS execution policy, and artifact review modes. |
+| `~/.gemini/projects.json` | `ProjectsIndexSchema` | Map of all known workspace directory paths to project aliases. |
+| `~/.gemini/trustedFolders.json` | `TrustedFoldersSchema` | Trust policy map classifying folders into `TRUST_FOLDER` vs `DO_NOT_TRUST`. |
+| `~/.gemini/trusted_hooks.json` | `TrustedHooksSchema` | Trusted statusline/script execution whitelist per directory. |
+| `~/.gemini/GEMINI.md` | `GEMINI.md` | Global behavioral constraints and user rules prompt. |
+
+#### Sensitive & Transient Files to EXCLUDE & IGNORE:
+
+| File / Folder | Classification | Reason |
+|---|---|---|
+| `~/.gemini/oauth_creds.json` | **SENSITIVE CREDENTIAL** | OAuth secret keys and access tokens (Strict Security Rule: NEVER read, output, or commit). |
+| `~/.gemini/google_accounts.json` | **SENSITIVE CREDENTIAL** | Google Account user identifiers and authentication tokens. |
+| `~/.gemini/antigravity-oauth-token` | **SENSITIVE CREDENTIAL** | Active OAuth session token payload. |
+| `~/.gemini/antigravity-browser-profile/` | Transient Data | Local browser automation profiles, cookies, and local storage. |
+| `~/.gemini/tmp/`, `crashes/`, `updater/` | Transient Data | Temporary IPC context dumps, crash stack traces, and updater lock files. |
+| `~/.gemini/config/archived-skills/`, `config/backups/` | Legacy Archive | Superseded skill migration backups and stale setting backups (`.bak`). |
+
+
 ### Application `[DOCS]`
 
 | Path | Purpose |

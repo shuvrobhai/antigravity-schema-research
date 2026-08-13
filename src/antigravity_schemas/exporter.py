@@ -18,6 +18,8 @@ from .models import (
     TranscriptStepSchema,
     KeybindingsSchema,
     StatusLinePayloadSchema,
+    MasterConfigSchema,
+    ProjectsIndexSchema,
 )
 
 SCHEMA_MAPPING: Dict[str, Type[BaseModel]] = {
@@ -30,6 +32,8 @@ SCHEMA_MAPPING: Dict[str, Type[BaseModel]] = {
     "transcript_step.schema.json": TranscriptStepSchema,
     "keybindings.schema.json": KeybindingsSchema,
     "status_line.schema.json": StatusLinePayloadSchema,
+    "master_config.schema.json": MasterConfigSchema,
+    "projects.schema.json": ProjectsIndexSchema,
 }
 
 

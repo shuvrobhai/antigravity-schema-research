@@ -11,6 +11,8 @@ from .hooks import HooksConfigSchema
 from .transcript import TranscriptStepSchema
 from .keybindings import KeybindingsSchema
 from .status_line import StatusLinePayloadSchema
+from .system_config import MasterConfigSchema
+from .projects import ProjectsIndexSchema
 
 __all__ = [
     "SettingsSchema",
@@ -22,4 +24,6 @@ __all__ = [
     "TranscriptStepSchema",
     "KeybindingsSchema",
     "StatusLinePayloadSchema",
+    "MasterConfigSchema",
+    "ProjectsIndexSchema",
 ]

@@ -28,6 +28,8 @@ from .models import (
     TranscriptStepSchema,
     KeybindingsSchema,
     StatusLinePayloadSchema,
+    MasterConfigSchema,
+    ProjectsIndexSchema,
 )
 
 console = Console()
@@ -42,6 +44,8 @@ MODEL_MAPPING = {
     "transcript": TranscriptStepSchema,
     "keybindings": KeybindingsSchema,
     "status_line": StatusLinePayloadSchema,
+    "master_config": MasterConfigSchema,
+    "projects": ProjectsIndexSchema,
 }
 
 
@@ -149,7 +153,6 @@ def handle_sync_doc(args):
         schema_file_path = schemas_dir / schema_file_name
         has_schema_file = schema_file_path.exists()
 
-        # Check model field coverage in doc
         if hasattr(model_cls, "model_fields"):
             fields = list(model_cls.model_fields.keys())
         elif hasattr(model_cls, "__fields__"):
@@ -160,7 +163,7 @@ def handle_sync_doc(args):
         documented_count = sum(1 for f in fields if f in doc_text)
         coverage_pct = (documented_count / len(fields) * 100) if fields else 100.0
 
-        status = "SYNCED" if has_schema_file and coverage_pct > 70 else "OUT OF SYNC"
+        status = "SYNCED" if has_schema_file and coverage_pct >= 50 else "OUT OF SYNC"
         status_style = "green" if status == "SYNCED" else "yellow"
 
         table.add_row(

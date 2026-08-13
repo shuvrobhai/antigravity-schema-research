@@ -1,0 +1,199 @@
+{
+  "$defs": {
+    "MasterUserSettings": {
+      "properties": {
+        "artifactReviewMode": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Artifact review policy mode.",
+          "title": "Artifactreviewmode"
+        },
+        "autoExecutionPolicy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Command cascade auto execution policy.",
+          "title": "Autoexecutionpolicy"
+        },
+        "browserJsExecutionPolicy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Browser JS execution safety mode.",
+          "title": "Browserjsexecutionpolicy"
+        },
+        "enableTerminalSandbox": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": false,
+          "description": "Enable terminal execution sandbox.",
+          "title": "Enableterminalsandbox"
+        },
+        "globalPermissionGrants": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PermissionGrants"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Global permission grants allow/deny lists."
+        },
+        "nonWorkspaceFileAccessPolicy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Access policy for files outside workspace.",
+          "title": "Nonworkspacefileaccesspolicy"
+        },
+        "queuedMessageDeliveryStrategy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Delivery mode for queued agent messages.",
+          "title": "Queuedmessagedeliverystrategy"
+        },
+        "remoteControlHostname": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Remote control device hostname.",
+          "title": "Remotecontrolhostname"
+        },
+        "themeMode": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "UI visual theme mode.",
+          "title": "Thememode"
+        }
+      },
+      "title": "MasterUserSettings",
+      "type": "object"
+    },
+    "PermissionGrants": {
+      "properties": {
+        "allow": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Global allowlist rules.",
+          "title": "Allow"
+        },
+        "deny": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Global denylist rules.",
+          "title": "Deny"
+        }
+      },
+      "title": "PermissionGrants",
+      "type": "object"
+    },
+    "PluginState": {
+      "properties": {
+        "enabled": {
+          "default": true,
+          "description": "Enable or disable plugin.",
+          "title": "Enabled",
+          "type": "boolean"
+        }
+      },
+      "title": "PluginState",
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "plugins": {
+      "additionalProperties": {
+        "$ref": "#/$defs/PluginState"
+      },
+      "description": "Map of plugin identifiers to activation state.",
+      "title": "Plugins",
+      "type": "object"
+    },
+    "userSettings": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/MasterUserSettings"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Global master user settings configuration."
+    }
+  },
+  "title": "MasterConfigSchema",
+  "type": "object"
+}

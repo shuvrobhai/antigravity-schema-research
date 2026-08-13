@@ -1,0 +1,15 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "projects": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Map of absolute repository folder paths to project aliases.",
+      "title": "Projects",
+      "type": "object"
+    }
+  },
+  "title": "ProjectsIndexSchema",
+  "type": "object"
+}

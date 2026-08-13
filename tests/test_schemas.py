@@ -16,6 +16,8 @@ from antigravity_schemas.models import (
     TranscriptStepSchema,
     KeybindingsSchema,
     StatusLinePayloadSchema,
+    MasterConfigSchema,
+    ProjectsIndexSchema,
 )
 from antigravity_schemas.exporter import export_all_schemas
 
@@ -79,11 +81,26 @@ class TestSchemas(unittest.TestCase):
         self.assertEqual(model.step_index, 0)
         self.assertEqual(model.type, "USER_INPUT")
 
+    def test_master_config_valid(self):
+        data = {
+            "plugins": {"engineering": {"enabled": True}},
+            "userSettings": {"themeMode": "THEME_MODE_LIGHT"}
+        }
+        model = MasterConfigSchema.model_validate(data)
+        self.assertTrue(model.plugins["engineering"].enabled)
+
+    def test_projects_index_valid(self):
+        data = {
+            "projects": {"/Users/user/dev": "dev"}
+        }
+        model = ProjectsIndexSchema.model_validate(data)
+        self.assertEqual(model.projects["/Users/user/dev"], "dev")
+
     def test_export_all_schemas(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
             exported = export_all_schemas(tmp_path)
-            self.assertEqual(len(exported), 9)
+            self.assertEqual(len(exported), 11)
             for filename, path in exported.items():
                 self.assertTrue(path.exists())
                 content = json.loads(path.read_text())

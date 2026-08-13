@@ -1333,6 +1333,7 @@ Auto-update can be disabled with the `AGY_CLI_DISABLE_AUTO_UPDATE=true` environm
 |---|---|---|
 | `~/.gemini/config/config.json` | `MasterConfigSchema` | Master extensibility manifest storing enabled plugin states, global permission grants (allow/deny commands), browser JS execution policy, and artifact review modes. |
 | `~/.gemini/projects.json` | `ProjectsIndexSchema` | Map of all known workspace directory paths to project aliases. |
+| `~/.gemini/antigravity/antigravity_state.pbtxt` | `DesktopStateSchema` | Antigravity 2.0 Desktop app state (`post_onboarding`, `seen_nuxs`, `agent_onboarding_completed`, `last_selected_agent_model`, `migrate_convos_into_projects`, `installation_uuid`, `migrate_retroactive_projects`, `migrations`). |
 | `~/.gemini/trustedFolders.json` | `TrustedFoldersSchema` | Trust policy map classifying folders into `TRUST_FOLDER` vs `DO_NOT_TRUST`. |
 | `~/.gemini/trusted_hooks.json` | `TrustedHooksSchema` | Trusted statusline/script execution whitelist per directory. |
 | `~/.gemini/GEMINI.md` | `GEMINI.md` | Global behavioral constraints and user rules prompt. |

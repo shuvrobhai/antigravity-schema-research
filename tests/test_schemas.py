@@ -18,8 +18,10 @@ from antigravity_schemas.models import (
     StatusLinePayloadSchema,
     MasterConfigSchema,
     ProjectsIndexSchema,
+    DesktopStateSchema,
 )
 from antigravity_schemas.exporter import export_all_schemas
+from antigravity_schemas.models.desktop_state import parse_pbtxt_state
 
 
 class TestSchemas(unittest.TestCase):
@@ -96,11 +98,22 @@ class TestSchemas(unittest.TestCase):
         model = ProjectsIndexSchema.model_validate(data)
         self.assertEqual(model.projects["/Users/user/dev"], "dev")
 
+    def test_desktop_state_valid(self):
+        pbtxt_sample = """
+post_onboarding: {
+  completed_steps: POST_ONBOARDING_STEP_TYPE_MANAGER_WELCOME
+}
+installation_uuid: "666c50bb-b65b-484a-81b4-a911c45ade2a"
+"""
+        parsed = parse_pbtxt_state(pbtxt_sample)
+        model = DesktopStateSchema.model_validate(parsed)
+        self.assertEqual(model.installation_uuid, "666c50bb-b65b-484a-81b4-a911c45ade2a")
+
     def test_export_all_schemas(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
             exported = export_all_schemas(tmp_path)
-            self.assertEqual(len(exported), 11)
+            self.assertEqual(len(exported), 12)
             for filename, path in exported.items():
                 self.assertTrue(path.exists())
                 content = json.loads(path.read_text())

@@ -1,0 +1,154 @@
+{
+  "$defs": {
+    "MigrationEntry": {
+      "properties": {
+        "key": {
+          "description": "Migration step ID key.",
+          "title": "Key",
+          "type": "integer"
+        },
+        "value": {
+          "description": "Migration status enum value.",
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ],
+      "title": "MigrationEntry",
+      "type": "object"
+    },
+    "PostOnboardingState": {
+      "properties": {
+        "completed_steps": {
+          "description": "List of completed desktop onboarding step enums.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Completed Steps",
+          "type": "array"
+        }
+      },
+      "title": "PostOnboardingState",
+      "type": "object"
+    },
+    "SeenNuxsState": {
+      "properties": {
+        "uids": {
+          "description": "List of New User Experience (NUX) feature notice UIDs acknowledged by user.",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Uids",
+          "type": "array"
+        }
+      },
+      "title": "SeenNuxsState",
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "post_onboarding": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PostOnboardingState"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Desktop app post-onboarding completion state."
+    },
+    "seen_nuxs": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SeenNuxsState"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Acknowledged NUX dialogs state."
+    },
+    "agent_onboarding_completed": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "AGENT_ONBOARDING_STATE_UNSPECIFIED",
+      "description": "Agent onboarding completion status enum.",
+      "title": "Agent Onboarding Completed"
+    },
+    "last_selected_agent_model": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Last active model selection string in Desktop GUI.",
+      "title": "Last Selected Agent Model"
+    },
+    "migrate_convos_into_projects": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Status of project conversation migration.",
+      "title": "Migrate Convos Into Projects"
+    },
+    "installation_uuid": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Unique desktop application installation UUID.",
+      "title": "Installation Uuid"
+    },
+    "migrate_retroactive_projects": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Retroactive project migration status enum.",
+      "title": "Migrate Retroactive Projects"
+    },
+    "migrations": {
+      "description": "List of system database migration status entries.",
+      "items": {
+        "$ref": "#/$defs/MigrationEntry"
+      },
+      "title": "Migrations",
+      "type": "array"
+    }
+  },
+  "title": "DesktopStateSchema",
+  "type": "object"
+}

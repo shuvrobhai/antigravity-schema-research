@@ -13,6 +13,7 @@ from .keybindings import KeybindingsSchema
 from .status_line import StatusLinePayloadSchema
 from .system_config import MasterConfigSchema
 from .projects import ProjectsIndexSchema
+from .desktop_state import DesktopStateSchema
 
 __all__ = [
     "SettingsSchema",
@@ -26,4 +27,5 @@ __all__ = [
     "StatusLinePayloadSchema",
     "MasterConfigSchema",
     "ProjectsIndexSchema",
+    "DesktopStateSchema",
 ]

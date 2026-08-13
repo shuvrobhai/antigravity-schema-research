@@ -20,6 +20,7 @@ from .models import (
     StatusLinePayloadSchema,
     MasterConfigSchema,
     ProjectsIndexSchema,
+    DesktopStateSchema,
 )
 
 SCHEMA_MAPPING: Dict[str, Type[BaseModel]] = {
@@ -34,6 +35,7 @@ SCHEMA_MAPPING: Dict[str, Type[BaseModel]] = {
     "status_line.schema.json": StatusLinePayloadSchema,
     "master_config.schema.json": MasterConfigSchema,
     "projects.schema.json": ProjectsIndexSchema,
+    "desktop_state.schema.json": DesktopStateSchema,
 }
 
 

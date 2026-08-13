@@ -30,6 +30,7 @@ from .models import (
     StatusLinePayloadSchema,
     MasterConfigSchema,
     ProjectsIndexSchema,
+    DesktopStateSchema,
 )
 
 console = Console()
@@ -46,6 +47,7 @@ MODEL_MAPPING = {
     "status_line": StatusLinePayloadSchema,
     "master_config": MasterConfigSchema,
     "projects": ProjectsIndexSchema,
+    "desktop_state": DesktopStateSchema,
 }
 
 

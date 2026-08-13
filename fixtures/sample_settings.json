@@ -1,0 +1,20 @@
+{
+  "toolPermission": "request-review",
+  "artifactReviewPolicy": "asks-for-review",
+  "enableTerminalSandbox": false,
+  "allowNonWorkspaceAccess": false,
+  "trustedWorkspaces": ["/Users/rayhanislamshuvro/Developer/antigravity-schema-research"],
+  "colorScheme": "terminal",
+  "altScreenMode": "default",
+  "notifications": false,
+  "showTips": true,
+  "showFeedbackSurvey": true,
+  "editor": "auto",
+  "editorMode": "default",
+  "vimInsertFirst": false,
+  "verbosity": "high",
+  "runningLightSpeed": "medium",
+  "useG1Credits": false,
+  "enableTelemetry": true,
+  "model": "Gemini 3.5 Flash (Low)"
+}

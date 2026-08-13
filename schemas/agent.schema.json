@@ -1,0 +1,152 @@
+{
+  "$defs": {
+    "CommandExecutionPolicyEnum": {
+      "enum": [
+        "off",
+        "auto",
+        "eager",
+        "sandbox"
+      ],
+      "title": "CommandExecutionPolicyEnum",
+      "type": "string"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "name": {
+      "description": "Unique identifier for the subagent/custom agent (lowercase, hyphens).",
+      "title": "Name",
+      "type": "string"
+    },
+    "description": {
+      "description": "Detailed description used by the planner to determine subagent delegation.",
+      "title": "Description",
+      "type": "string"
+    },
+    "tools": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "List of permitted built-in or MCP tool names for this agent.",
+      "title": "Tools"
+    },
+    "mainAgent": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": true,
+      "description": "Whether this agent can be selected as the primary agent in chat.",
+      "title": "Mainagent"
+    },
+    "subagent": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": true,
+      "description": "Whether this agent can be invoked via `invoke_subagent`.",
+      "title": "Subagent"
+    },
+    "model": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "inherit",
+      "description": "Model tier specification ('inherit', 'flash', 'pro', 'flash_lite').",
+      "title": "Model"
+    },
+    "commandExecutionPolicy": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CommandExecutionPolicyEnum"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "sandbox",
+      "description": "Shell execution safety policy for run_command."
+    },
+    "mcpServers": {
+      "anyOf": [
+        {
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "additionalProperties": true,
+                "type": "object"
+              }
+            ]
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Custom MCP servers or server references bound to this subagent.",
+      "title": "Mcpservers"
+    },
+    "skills": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "List of relative skill paths pre-loaded for this agent.",
+      "title": "Skills"
+    },
+    "plugins": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "List of plugin dependencies required by this agent.",
+      "title": "Plugins"
+    }
+  },
+  "required": [
+    "name",
+    "description"
+  ],
+  "title": "AgentFrontmatterSchema",
+  "type": "object"
+}

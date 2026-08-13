@@ -1,0 +1,100 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "$schema": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "https://antigravity.google/schemas/v1/plugin.json",
+      "description": "JSON Schema URI for plugin manifest validation.",
+      "title": "$Schema"
+    },
+    "name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Name of the plugin. Defaults to parent folder name if omitted.",
+      "title": "Name"
+    },
+    "version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "1.0.0",
+      "description": "Semantic version string.",
+      "title": "Version"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Brief description of the plugin functionality.",
+      "title": "Description"
+    },
+    "author": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Author or organization name.",
+      "title": "Author"
+    },
+    "license": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "License identifier (e.g. MIT, Apache-2.0).",
+      "title": "License"
+    },
+    "dependencies": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "List of plugin dependencies required by this plugin.",
+      "title": "Dependencies"
+    }
+  },
+  "title": "PluginManifestSchema",
+  "type": "object"
+}

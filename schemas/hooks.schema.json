@@ -1,0 +1,174 @@
+{
+  "$defs": {
+    "HookAction": {
+      "properties": {
+        "type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "command",
+          "description": "Type of hook action execution.",
+          "title": "Type"
+        },
+        "command": {
+          "description": "Script path or shell command to execute.",
+          "title": "Command",
+          "type": "string"
+        },
+        "timeout": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 30,
+          "description": "Execution timeout in seconds.",
+          "title": "Timeout"
+        }
+      },
+      "required": [
+        "command"
+      ],
+      "title": "HookAction",
+      "type": "object"
+    },
+    "HookBinding": {
+      "properties": {
+        "enabled": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": true,
+          "description": "Enable or disable hook set.",
+          "title": "Enabled"
+        },
+        "PreToolUse": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/HookRule"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Hooks run before tool execution.",
+          "title": "Pretooluse"
+        },
+        "PostToolUse": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/HookRule"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Hooks run after tool execution.",
+          "title": "Posttooluse"
+        },
+        "PreInvocation": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/HookRule"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Hooks run before model invocation.",
+          "title": "Preinvocation"
+        },
+        "PostInvocation": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/HookRule"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Hooks run after model invocation.",
+          "title": "Postinvocation"
+        },
+        "Stop": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/HookRule"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Hooks run on session stop.",
+          "title": "Stop"
+        }
+      },
+      "title": "HookBinding",
+      "type": "object"
+    },
+    "HookRule": {
+      "properties": {
+        "matcher": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "",
+          "description": "Regex or string matcher for tool/invocation filter.",
+          "title": "Matcher"
+        },
+        "hooks": {
+          "description": "List of hook actions to execute on match.",
+          "items": {
+            "$ref": "#/$defs/HookAction"
+          },
+          "title": "Hooks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "hooks"
+      ],
+      "title": "HookRule",
+      "type": "object"
+    }
+  },
+  "additionalProperties": {
+    "$ref": "#/$defs/HookBinding"
+  },
+  "description": "Named hook set configurations.",
+  "title": "HooksConfigSchema",
+  "type": "object"
+}

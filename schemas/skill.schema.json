@@ -1,0 +1,28 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Unique skill name. Defaults to folder name if omitted.",
+      "title": "Name"
+    },
+    "description": {
+      "description": "Trigger description explaining what the skill does and when the agent should activate it.",
+      "title": "Description",
+      "type": "string"
+    }
+  },
+  "required": [
+    "description"
+  ],
+  "title": "SkillFrontmatterSchema",
+  "type": "object"
+}

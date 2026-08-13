@@ -1,0 +1,138 @@
+{
+  "$defs": {
+    "StepSourceEnum": {
+      "enum": [
+        "USER_EXPLICIT",
+        "MODEL",
+        "SYSTEM",
+        "SUBAGENT"
+      ],
+      "title": "StepSourceEnum",
+      "type": "string"
+    },
+    "StepStatusEnum": {
+      "enum": [
+        "DONE",
+        "RUNNING",
+        "ERROR",
+        "ACTIVE"
+      ],
+      "title": "StepStatusEnum",
+      "type": "string"
+    },
+    "StepTypeEnum": {
+      "enum": [
+        "USER_INPUT",
+        "PLANNER_RESPONSE",
+        "TOOL_CALL",
+        "SYSTEM_PROMPT",
+        "SUBAGENT_DELEGATION",
+        "SUBAGENT_RESPONSE",
+        "ERROR",
+        "RECOVERY"
+      ],
+      "title": "StepTypeEnum",
+      "type": "string"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "step_index": {
+      "description": "0-indexed step sequence number.",
+      "title": "Step Index",
+      "type": "integer"
+    },
+    "source": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/StepSourceEnum"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Origin source of step.",
+      "title": "Source"
+    },
+    "type": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/StepTypeEnum"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "description": "Type event identifier for step.",
+      "title": "Type"
+    },
+    "status": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/StepStatusEnum"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "DONE",
+      "description": "Execution status.",
+      "title": "Status"
+    },
+    "content": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Natural language prompt, text, or JSON snippet.",
+      "title": "Content"
+    },
+    "tool_calls": {
+      "anyOf": [
+        {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Array of tool call objects.",
+      "title": "Tool Calls"
+    },
+    "is_truncated": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": false,
+      "description": "Flag indicating token-saving truncation in transcript.jsonl.",
+      "title": "Is Truncated"
+    }
+  },
+  "required": [
+    "step_index",
+    "type"
+  ],
+  "title": "TranscriptStepSchema",
+  "type": "object"
+}

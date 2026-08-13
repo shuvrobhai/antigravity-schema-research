@@ -1,0 +1,604 @@
+{
+  "$defs": {
+    "AltScreenModeEnum": {
+      "enum": [
+        "default",
+        "always",
+        "never"
+      ],
+      "title": "AltScreenModeEnum",
+      "type": "string"
+    },
+    "ArtifactReviewPolicyEnum": {
+      "enum": [
+        "asks-for-review",
+        "agent-decides",
+        "always-proceed"
+      ],
+      "title": "ArtifactReviewPolicyEnum",
+      "type": "string"
+    },
+    "ColorSchemeEnum": {
+      "enum": [
+        "light",
+        "solarized light",
+        "colorblind-friendly light",
+        "dark",
+        "solarized dark",
+        "colorblind-friendly dark",
+        "tokyo night",
+        "terminal"
+      ],
+      "title": "ColorSchemeEnum",
+      "type": "string"
+    },
+    "CommandScriptConfig": {
+      "properties": {
+        "type": {
+          "default": "command",
+          "description": "Type of script execution.",
+          "title": "Type",
+          "type": "string"
+        },
+        "command": {
+          "description": "Executable path or command.",
+          "title": "Command",
+          "type": "string"
+        },
+        "padding": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "description": "Padding in spaces.",
+          "title": "Padding"
+        },
+        "enabled": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": true,
+          "description": "Enable or disable custom status script.",
+          "title": "Enabled"
+        },
+        "stack_with_default": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": false,
+          "description": "Stack custom output with default status line.",
+          "title": "Stack With Default"
+        }
+      },
+      "required": [
+        "command"
+      ],
+      "title": "CommandScriptConfig",
+      "type": "object"
+    },
+    "EditorModeEnum": {
+      "enum": [
+        "default",
+        "vim"
+      ],
+      "title": "EditorModeEnum",
+      "type": "string"
+    },
+    "FooterConfig": {
+      "properties": {
+        "items": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "List of widget IDs displayed in the status footer.",
+          "title": "Items"
+        }
+      },
+      "title": "FooterConfig",
+      "type": "object"
+    },
+    "GeneralConfig": {
+      "properties": {
+        "preferredEditor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Preferred code editor binary or alias.",
+          "title": "Preferrededitor"
+        },
+        "openEditorInNewWindow": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": false,
+          "description": "Open editor in a new window.",
+          "title": "Openeditorinnewwindow"
+        },
+        "vimMode": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": false,
+          "description": "Enable Vim keybindings globally.",
+          "title": "Vimmode"
+        }
+      },
+      "title": "GeneralConfig",
+      "type": "object"
+    },
+    "PermissionsConfig": {
+      "properties": {
+        "allow": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Allowlist rules.",
+          "title": "Allow"
+        },
+        "deny": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Denylist rules.",
+          "title": "Deny"
+        },
+        "ask": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Asklist rules.",
+          "title": "Ask"
+        }
+      },
+      "title": "PermissionsConfig",
+      "type": "object"
+    },
+    "RunningLightSpeedEnum": {
+      "enum": [
+        "fast",
+        "medium",
+        "slow",
+        "off"
+      ],
+      "title": "RunningLightSpeedEnum",
+      "type": "string"
+    },
+    "ToolPermissionEnum": {
+      "enum": [
+        "request-review",
+        "proceed-in-sandbox",
+        "always-proceed",
+        "strict"
+      ],
+      "title": "ToolPermissionEnum",
+      "type": "string"
+    },
+    "UIConfig": {
+      "properties": {
+        "language": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "us",
+          "description": "Interface language code.",
+          "title": "Language"
+        },
+        "footer": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FooterConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Footer widget configuration."
+        }
+      },
+      "title": "UIConfig",
+      "type": "object"
+    },
+    "VerbosityEnum": {
+      "enum": [
+        "high",
+        "low"
+      ],
+      "title": "VerbosityEnum",
+      "type": "string"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "toolPermission": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ToolPermissionEnum"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "request-review",
+      "description": "Global permission policy for tool execution."
+    },
+    "artifactReviewPolicy": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ArtifactReviewPolicyEnum"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "asks-for-review",
+      "description": "Review policy for artifact generation."
+    },
+    "enableTerminalSandbox": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": false,
+      "description": "Run terminal commands in an isolated sandbox environment.",
+      "title": "Enableterminalsandbox"
+    },
+    "allowNonWorkspaceAccess": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": false,
+      "description": "Allow reading/writing files outside the active workspace root.",
+      "title": "Allownonworkspaceaccess"
+    },
+    "trustedWorkspaces": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "List of trusted local repository directory paths.",
+      "title": "Trustedworkspaces"
+    },
+    "colorScheme": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ColorSchemeEnum"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "terminal",
+      "description": "TUI color palette theme."
+    },
+    "altScreenMode": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/AltScreenModeEnum"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "default",
+      "description": "Terminal alternate screen mode usage."
+    },
+    "notifications": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": false,
+      "description": "Enable desktop OS notifications.",
+      "title": "Notifications"
+    },
+    "showTips": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": true,
+      "description": "Display helpful usage tips in UI.",
+      "title": "Showtips"
+    },
+    "showFeedbackSurvey": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": true,
+      "description": "Prompt for periodic feedback surveys.",
+      "title": "Showfeedbacksurvey"
+    },
+    "ui": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/UIConfig"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "User interface configuration settings."
+    },
+    "editor": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "auto",
+      "description": "External editor command or auto-detection mode.",
+      "title": "Editor"
+    },
+    "editorMode": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/EditorModeEnum"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "default",
+      "description": "Keyboard navigation mode for input editor."
+    },
+    "vimInsertFirst": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": false,
+      "description": "Default to insert mode when opening editor with Vim mode.",
+      "title": "Viminsertfirst"
+    },
+    "verbosity": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/VerbosityEnum"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "high",
+      "description": "Output verbosity level."
+    },
+    "runningLightSpeed": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RunningLightSpeedEnum"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "medium",
+      "description": "Animation speed of the running indicator light."
+    },
+    "useG1Credits": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": false,
+      "description": "Use Google One credits for external model calls.",
+      "title": "Useg1Credits"
+    },
+    "enableTelemetry": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": true,
+      "description": "Enable anonymous usage telemetry.",
+      "title": "Enabletelemetry"
+    },
+    "model": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Persisted default model selection string (e.g. 'Gemini 3.5 Flash (Low)').",
+      "title": "Model"
+    },
+    "title": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CommandScriptConfig"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Custom script for dynamic terminal title rendering."
+    },
+    "statusLine": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CommandScriptConfig"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Custom status line script configuration."
+    },
+    "permissions": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PermissionsConfig"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Explicit tool permission rules (allow/deny/ask)."
+    },
+    "general": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/GeneralConfig"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "General application preferences."
+    },
+    "policyPaths": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Paths to user custom policy files.",
+      "title": "Policypaths"
+    },
+    "adminPolicyPaths": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Paths to system/admin policy files.",
+      "title": "Adminpolicypaths"
+    }
+  },
+  "title": "SettingsSchema",
+  "type": "object"
+}

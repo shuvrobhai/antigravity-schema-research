@@ -1,0 +1,18 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "bindings": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "description": "Map of TUI action names (e.g., 'cli.escape') to hotkey arrays (e.g. ['Escape']).",
+      "title": "Bindings",
+      "type": "object"
+    }
+  },
+  "title": "KeybindingsSchema",
+  "type": "object"
+}

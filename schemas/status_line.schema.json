@@ -1,0 +1,308 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "cwd": {
+      "description": "Current working directory path.",
+      "title": "Cwd",
+      "type": "string"
+    },
+    "session_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Active session ID.",
+      "title": "Session Id"
+    },
+    "conversation_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Active conversation ID.",
+      "title": "Conversation Id"
+    },
+    "transcript_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Path to transcript JSONL log file.",
+      "title": "Transcript Path"
+    },
+    "model": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Model metadata object {id, display_name}.",
+      "title": "Model"
+    },
+    "workspace": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Workspace directories object.",
+      "title": "Workspace"
+    },
+    "version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Antigravity CLI version string.",
+      "title": "Version"
+    },
+    "context_window": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Token usage & context statistics.",
+      "title": "Context Window"
+    },
+    "exceeds_200k_tokens": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": false,
+      "description": "Flag if context exceeds 200k tokens.",
+      "title": "Exceeds 200K Tokens"
+    },
+    "product": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "Antigravity CLI",
+      "description": "Product application name.",
+      "title": "Product"
+    },
+    "quota": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Quota usage buckets metadata.",
+      "title": "Quota"
+    },
+    "agent_state": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "idle",
+      "description": "Current state ('idle', 'thinking', 'working', 'tool_use', 'initializing').",
+      "title": "Agent State"
+    },
+    "vcs": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "VCS metadata {type, branch, client, dirty}.",
+      "title": "Vcs"
+    },
+    "sandbox": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Sandbox configuration metadata.",
+      "title": "Sandbox"
+    },
+    "artifact_count": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": 0,
+      "description": "Count of artifacts created in session.",
+      "title": "Artifact Count"
+    },
+    "plan_tier": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Subscription plan tier.",
+      "title": "Plan Tier"
+    },
+    "email": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Authenticated account email.",
+      "title": "Email"
+    },
+    "pending_input_count": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": 0,
+      "description": "Queued prompt inputs count.",
+      "title": "Pending Input Count"
+    },
+    "tool_confirmation_pending": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": false,
+      "description": "True if confirmation dialog is open.",
+      "title": "Tool Confirmation Pending"
+    },
+    "task_count": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": 0,
+      "description": "Background tasks running count.",
+      "title": "Task Count"
+    },
+    "terminal_width": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": 80,
+      "description": "Terminal width in columns.",
+      "title": "Terminal Width"
+    },
+    "execution_mode": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": "planning",
+      "description": "Execution mode ('planning', 'fast').",
+      "title": "Execution Mode"
+    },
+    "vim": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Vim state mode metadata.",
+      "title": "Vim"
+    }
+  },
+  "required": [
+    "cwd"
+  ],
+  "title": "StatusLinePayloadSchema",
+  "type": "object"
+}

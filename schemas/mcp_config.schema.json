@@ -1,0 +1,201 @@
+{
+  "$defs": {
+    "MCPServerConfig": {
+      "additionalProperties": true,
+      "properties": {
+        "command": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Executable binary path for Stdio transport.",
+          "title": "Command"
+        },
+        "args": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Command line arguments for Stdio process.",
+          "title": "Args"
+        },
+        "env": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Environment variables dictionary.",
+          "title": "Env"
+        },
+        "cwd": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Working directory for Stdio process.",
+          "title": "Cwd"
+        },
+        "serverUrl": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "URL for SSE/HTTP Remote transport.",
+          "title": "Serverurl"
+        },
+        "headers": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "HTTP headers for Remote transport.",
+          "title": "Headers"
+        },
+        "authProviderType": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Auth provider type (e.g. 'google_credentials').",
+          "title": "Authprovidertype"
+        },
+        "oauth": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OAuthConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Manual OAuth credentials configuration."
+        },
+        "disabled": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": false,
+          "description": "Disable this MCP server without removing configuration.",
+          "title": "Disabled"
+        },
+        "disabledTools": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "List of specific tool names to hide.",
+          "title": "Disabledtools"
+        },
+        "timeout": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Request timeout in seconds.",
+          "title": "Timeout"
+        }
+      },
+      "title": "MCPServerConfig",
+      "type": "object"
+    },
+    "OAuthConfig": {
+      "properties": {
+        "clientId": {
+          "description": "OAuth Client ID.",
+          "title": "Clientid",
+          "type": "string"
+        },
+        "clientSecret": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "OAuth Client Secret.",
+          "title": "Clientsecret"
+        }
+      },
+      "required": [
+        "clientId"
+      ],
+      "title": "OAuthConfig",
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "mcpServers": {
+      "additionalProperties": {
+        "$ref": "#/$defs/MCPServerConfig"
+      },
+      "description": "Dictionary mapping server names to server configurations.",
+      "title": "Mcpservers",
+      "type": "object"
+    }
+  },
+  "title": "MCPConfigSchema",
+  "type": "object"
+}

@@ -97,6 +97,7 @@ Location: `~/.gemini/config/mcp_config.json` or `.agents/mcp_config.json`
 
 | Field | Type | Default | Description |
 |---|---|---|---|
+| `mcpServers` | map[string, MCPServerConfig] | `{}` | Top-level map of server names to server configurations |
 | `command` | string | Optional | Stdio transport executable binary path |
 | `args` | array[string] | `[]` | Stdio CLI arguments |
 | `env` | object | `{}` | Environment variables |
@@ -112,6 +113,7 @@ Location: `~/.gemini/config/hooks.json` or `.agents/hooks.json`
 
 | Field | Type | Default | Description |
 |---|---|---|---|
+| `root` | map[string, HookBinding] | `{}` | Root map of named hook sets (e.g. `PreToolUse`, `PostToolUse`) |
 | `PreToolUse` | array[rule] | `[]` | Interceptors executed before tool invocation |
 | `PostToolUse` | array[rule] | `[]` | Interceptors executed after tool completion |
 | `PreInvocation` | array[rule] | `[]` | Interceptors executed before model call |
@@ -154,11 +156,28 @@ Location: Custom statusline script stdin JSON payload
 |---|---|---|---|
 | `cwd` | string | **Required** | Current working directory |
 | `session_id` | string | Optional | Session conversation UUID |
+| `conversation_id` | string | Optional | Active conversation ID UUID |
+| `transcript_path` | string | Optional | Path to transcript JSONL log file |
+| `model` | object | Optional | Active model metadata object (`{id, display_name}`) |
+| `workspace` | object | Optional | Active workspace directories object |
 | `version` | string | Optional | Antigravity CLI version string |
 | `context_window` | object | Optional | Token usage stats `{total_input_tokens, used_percentage}` |
+| `exceeds_200k_tokens` | boolean | `false` | True if active context window exceeds 200,000 tokens |
+| `product` | string | `"Antigravity CLI"` | Product application name |
+| `quota` | object | Optional | Quota usage buckets metadata |
 | `agent_state` | string | `"idle"` | Current agent state (`idle`, `thinking`, `working`, `tool_use`) |
 | `vcs` | object | Optional | VCS metadata `{type, branch, dirty}` |
+| `sandbox` | object | Optional | Terminal sandbox execution metadata |
+| `artifact_count` | int | `0` | Count of artifacts created in session |
+| `plan_tier` | string | Optional | Subscription tier name (e.g. `pro`, `enterprise`) |
+| `email` | string | Optional | Authenticated account email address |
+| `pending_input_count` | int | `0` | Number of queued prompt inputs |
+| `tool_confirmation_pending` | boolean | `false` | True if tool execution confirmation modal is active |
+| `task_count` | int | `0` | Count of active background tasks |
 | `terminal_width` | int | `80` | Terminal column width |
+| `execution_mode` | string | `"planning"` | Execution speed mode (`planning`, `fast`) |
+| `vim` | object | Optional | Vim mode state metadata |
+
 
 ---
 

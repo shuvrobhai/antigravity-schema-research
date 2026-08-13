@@ -1,5 +1,5 @@
 """
-Unit tests for antigravity_schemas models and validation functionality using standard library unittest.
+Unit tests for antigravity_schemas models, registry, auditor, and validation functionality using standard library unittest.
 """
 
 import json
@@ -21,7 +21,9 @@ from antigravity_schemas.models import (
     DesktopStateSchema,
     IDEStateSchema,
 )
+from antigravity_schemas.registry import registry, SchemaRegistry
 from antigravity_schemas.exporter import export_all_schemas
+from antigravity_schemas.auditor import CategoryAuditResult, AuditReport, AuditStatus
 from antigravity_schemas.models.desktop_state import parse_pbtxt_state
 
 
@@ -121,6 +123,66 @@ installation_uuid: "666c50bb-b65b-484a-81b4-a911c45ade2a"
         model = IDEStateSchema.model_validate(data)
         self.assertEqual(model.active_conversations_count, 161)
 
+    def test_schema_registry_descriptors(self):
+        descriptors = registry.all_descriptors()
+        self.assertEqual(len(descriptors), 13)
+
+        settings_desc = registry.get("settings")
+        self.assertIsNotNone(settings_desc)
+        self.assertEqual(settings_desc.model_cls, SettingsSchema)
+        self.assertEqual(settings_desc.filename, "settings.schema.json")
+
+        plugin_desc = registry.get_by_filename("plugin.schema.json")
+        self.assertIsNotNone(plugin_desc)
+        self.assertEqual(plugin_desc.key, "plugin")
+
+        schema_map = registry.schema_mapping()
+        self.assertEqual(len(schema_map), 13)
+        self.assertEqual(schema_map["settings.schema.json"], SettingsSchema)
+
+        model_map = registry.model_mapping()
+        self.assertEqual(len(model_map), 13)
+        self.assertEqual(model_map["mcp"], MCPConfigSchema)
+
+    def test_audit_report_domain_model(self):
+        res1 = CategoryAuditResult(
+            category="Settings",
+            status=AuditStatus.VALID,
+            path="/path/to/settings.json",
+            details="Valid settings",
+            valid_count=1,
+        )
+        res2 = CategoryAuditResult(
+            category="Skills",
+            status=AuditStatus.INVALID,
+            path="/path/to/skills",
+            details="1 invalid skill",
+            invalid_count=1,
+        )
+        report = AuditReport(results=[res1, res2])
+
+        self.assertEqual(report.total_audited, 2)
+        self.assertEqual(report.total_valid, 1)
+        self.assertEqual(report.total_invalid, 1)
+
+        rows = report.to_table_rows()
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(rows[0][0], "Settings")
+        self.assertIn("VALID", rows[0][1])
+        self.assertEqual(rows[1][0], "Skills")
+        self.assertIn("INVALID", rows[1][1])
+
+    def test_doc_sync_inspector(self):
+        doc_path = Path("SCHEMA_REFERENCE.md")
+        schemas_dir = Path("schemas")
+        if doc_path.exists() and schemas_dir.exists():
+            from antigravity_schemas.doc_inspector import DocSyncInspector
+            inspector = DocSyncInspector(doc_path=doc_path, schemas_dir=schemas_dir)
+            results = inspector.inspect()
+            self.assertEqual(len(results), 13)
+            synced_count = sum(1 for r in results if r.is_synced)
+            self.assertGreaterEqual(synced_count, 10)
+
     def test_export_all_schemas(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
@@ -134,3 +196,4 @@ installation_uuid: "666c50bb-b65b-484a-81b4-a911c45ade2a"
 
 if __name__ == "__main__":
     unittest.main()
+

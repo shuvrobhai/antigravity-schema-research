@@ -1,6 +1,6 @@
 # Antigravity Schemas (`antigravity-schemas`)
 
-An automated schema extraction, validation, and auditing toolkit for the **Google Antigravity CLI and IDE** ecosystem, built from empirical trajectory audits and source documentation in [`antigravity-cli-reference.md`](file:///Users/rayhanislamshuvro/Developer/antigravity-schema-research/antigravity-cli-reference.md).
+An automated schema extraction, validation, and auditing toolkit for the **Google Antigravity Ecosystem** (Desktop 2.0, IDE, CLI, SDK, and Shared Core), built from empirical trajectory audits and source documentation in [`antigravity-reference.md`](file:///Users/rayhanislamshuvro/Developer/antigravity-schema-research/antigravity-reference.md).
 
 ## Features
 

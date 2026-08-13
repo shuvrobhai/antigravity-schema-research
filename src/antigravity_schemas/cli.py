@@ -16,18 +16,15 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 
-from .exporter import export_all_schemas, SCHEMA_MAPPING
+from .registry import registry
+from .exporter import export_all_schemas
 from .auditor import SystemAuditor, parse_frontmatter
+from .doc_inspector import DocSyncInspector
 
 console = Console()
 
-MODEL_MAPPING = {
-    key.replace(".schema.json", "").replace("_step", "").replace("_config", ""): model_cls
-    for key, model_cls in SCHEMA_MAPPING.items()
-}
-MODEL_MAPPING["mcp"] = SCHEMA_MAPPING["mcp_config.schema.json"]
-MODEL_MAPPING["master_config"] = SCHEMA_MAPPING["master_config.schema.json"]
-MODEL_MAPPING["hooks"] = SCHEMA_MAPPING["hooks.schema.json"]
+# Unified model mapping from SchemaRegistry
+MODEL_MAPPING = registry.model_mapping()
 
 
 def handle_export(args):
@@ -50,32 +47,9 @@ def handle_audit(args):
     table.add_column("Status", style="bold")
     table.add_column("Path / Details", style="white")
 
-    # Settings
-    s = report["settings"]
-    status_style = "green" if s.get("status") == "VALID" else ("yellow" if s.get("status") == "SKIPPED" else "red")
-    table.add_row("Settings", f"[{status_style}]{s.get('status')}[/{status_style}]", s.get("path") or s.get("message"))
-
-    # MCP
-    for m in report["mcp_configs"]:
-        m_style = "green" if m.get("status") == "VALID" else "red"
-        table.add_row("MCP Config", f"[{m_style}]{m.get('status')}[/{m_style}]", m.get("path"))
-
-    # Skills summary
-    skills = report["skills"]
-    valid_skills = sum(1 for sk in skills if sk["status"] == "VALID")
-    table.add_row("Skills", f"[green]VALID ({valid_skills}/{len(skills)})[/green]", f"{len(skills)} SKILL.md files audited")
-
-    # Agents summary
-    agents = report["agents"]
-    valid_agents = sum(1 for ag in agents if ag["status"] == "VALID")
-    table.add_row("Agents", f"[green]VALID ({valid_agents}/{len(agents)})[/green]", f"{len(agents)} agent frontmatters audited")
-
-    # Transcripts
-    transcripts = report["transcripts"]
-    for tr in transcripts:
-        t_style = "green" if tr.get("status") == "VALID" else "red"
-        details = f"{tr.get('valid_steps', 0)} valid steps, {tr.get('invalid_steps', 0)} errors"
-        table.add_row("Transcript", f"[{t_style}]{tr.get('status')}[/{t_style}]", f"{tr.get('path')} ({details})")
+    # Delegate table row formatting directly to AuditReport domain model
+    for row in report.to_table_rows():
+        table.add_row(*row)
 
     console.print(table)
 
@@ -84,7 +58,8 @@ def handle_validate(args):
     file_path = Path(args.file)
     model_name = args.type.lower()
 
-    if model_name not in MODEL_MAPPING:
+    descriptor = registry.get(model_name)
+    if not descriptor:
         console.print(f"[bold red]Error:[/bold red] Unknown target schema type '{model_name}'. Options: {list(MODEL_MAPPING.keys())}")
         sys.exit(1)
 
@@ -92,7 +67,7 @@ def handle_validate(args):
         console.print(f"[bold red]Error:[/bold red] File not found: {file_path}")
         sys.exit(1)
 
-    model_cls = MODEL_MAPPING[model_name]
+    model_cls = descriptor.model_cls
     content = file_path.read_text(encoding="utf-8")
 
     try:
@@ -102,7 +77,7 @@ def handle_validate(args):
             data = json.loads(content)
 
         model_cls.model_validate(data)
-        console.print(Panel(f"[bold green]Validation Successful![/bold green]\nFile: {file_path}\nSchema: {model_cls.__name__}", title="Success", border_style="green"))
+        console.print(Panel(f"[bold green]Validation Successful![/bold green]\nFile: {file_path}\nSchema: {model_cls.__name__} ({descriptor.category})", title="Success", border_style="green"))
     except Exception as e:
         console.print(Panel(f"[bold red]Validation Failed![/bold red]\nFile: {file_path}\nError: {e}", title="Error", border_style="red"))
         sys.exit(1)
@@ -112,49 +87,45 @@ def handle_sync_doc(args):
     doc_path = Path(args.doc)
     schemas_dir = Path(args.schemas_dir)
 
-    console.print(f"[bold blue]Checking Sync Status between Models, Schemas, and Doc:[/bold blue] {doc_path.name}\n")
+    if not doc_path.exists() and Path("SCHEMA_REFERENCE.md").exists():
+        doc_path = Path("SCHEMA_REFERENCE.md")
+
+    console.print(f"[bold blue]Checking Contextual Sync Status against Doc:[/bold blue] {doc_path.name}\n")
 
     if not doc_path.exists():
         console.print(f"[bold red]Error:[/bold red] Reference document not found at {doc_path}")
         sys.exit(1)
 
-    doc_text = doc_path.read_text(encoding="utf-8")
+    inspector = DocSyncInspector(doc_path=doc_path, schemas_dir=schemas_dir)
+    results = inspector.inspect()
 
-    table = Table(title="Spec & Code Synchronization Status", show_lines=True)
+    table = Table(title="Spec & Code Contextual Sync Status", show_lines=True)
     table.add_column("Schema Model", style="cyan", no_wrap=True)
     table.add_column("JSON Schema File", style="magenta")
     table.add_column("Doc References", style="white")
     table.add_column("Sync Status", style="bold")
 
-    from .exporter import SCHEMA_MAPPING as EXPORT_SCHEMA_MAPPING
-    reverse_mapping = {model_cls: name for name, model_cls in EXPORT_SCHEMA_MAPPING.items()}
+    out_of_sync_items = []
 
-    for key, model_cls in MODEL_MAPPING.items():
-        schema_file_name = reverse_mapping.get(model_cls, f"{key}.schema.json")
-        schema_file_path = schemas_dir / schema_file_name
-        has_schema_file = schema_file_path.exists()
-
-        if hasattr(model_cls, "model_fields"):
-            fields = list(model_cls.model_fields.keys())
-        elif hasattr(model_cls, "__fields__"):
-            fields = list(model_cls.__fields__.keys())
-        else:
-            fields = []
-
-        documented_count = sum(1 for f in fields if f in doc_text)
-        coverage_pct = (documented_count / len(fields) * 100) if fields else 100.0
-
-        status = "SYNCED" if has_schema_file and coverage_pct >= 50 else "OUT OF SYNC"
-        status_style = "green" if status == "SYNCED" else "yellow"
+    for r in results:
+        desc = r.descriptor
+        status_text = "SYNCED" if r.is_synced else "OUT OF SYNC"
+        status_style = "green" if r.is_synced else "yellow"
 
         table.add_row(
-            model_cls.__name__,
-            f"✓ {schema_file_name}" if has_schema_file else "✗ Missing",
-            f"{documented_count}/{len(fields)} fields in doc ({coverage_pct:.0f}%)",
-            f"[{status_style}]{status}[/{status_style}]"
+            desc.model_cls.__name__,
+            f"✓ {desc.filename}" if r.schema_file_exists else "✗ Missing",
+            f"{len(r.documented_fields)}/{r.total_fields} fields ({r.coverage_pct:.0f}%)",
+            f"[{status_style}]{status_text}[/{status_style}]"
         )
 
+        if not r.is_synced and r.missing_fields:
+            out_of_sync_items.append(f"[bold]{desc.model_cls.__name__}[/bold]: missing fields -> {r.missing_fields}")
+
     console.print(table)
+
+    if out_of_sync_items:
+        console.print("\n", Panel("\n".join(out_of_sync_items), title="[bold yellow]Contextual Missing Fields Details[/bold yellow]", border_style="yellow"))
 
 
 def main():
@@ -179,12 +150,13 @@ def main():
 
     # Sync-doc command
     p_sync = subparsers.add_parser("sync-doc", help="Check synchronization between code models, exported schemas, and reference document")
-    p_sync.add_argument("-d", "--doc", default="antigravity-cli-reference.md", help="Path to reference markdown document")
+    p_sync.add_argument("-d", "--doc", default="SCHEMA_REFERENCE.md", help="Path to reference markdown document (default: SCHEMA_REFERENCE.md)")
     p_sync.add_argument("-s", "--schemas-dir", default="schemas", help="Directory containing exported JSON Schemas")
     p_sync.set_defaults(func=handle_sync_doc)
 
     args = parser.parse_args()
     args.func(args)
+
 
 
 if __name__ == "__main__":

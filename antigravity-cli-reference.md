@@ -1,12 +1,18 @@
-# Google Antigravity CLI: Complete Developer Reference and Documentation Gap Analysis
+# Google Antigravity Ecosystem: Complete Technical Reference, Schema Specification, and Gap Analysis
 
-## Version 5.1 — Transcript Audit Edition (2026-08-11)
+## Version 6.0 — Full Ecosystem Edition (2026-08-13)
 
 ---
 
 ## What This Is
 
-A comprehensive, source-classified reference for every schema, path, configuration key, command, tool, and behavioral specification in Google Antigravity CLI (`agy`), built by systematically auditing 52 sources including the full official documentation at `antigravity.google/docs/*`.
+A comprehensive, source-classified reference for every schema, path, configuration key, command, tool, and behavioral specification across the entire **Google Antigravity Ecosystem**:
+
+1. **Antigravity 2.0** — Standalone desktop application (`~/.gemini/antigravity/`).
+2. **Antigravity IDE** — VS Code-fork agentic IDE (`~/.gemini/antigravity-ide/`).
+3. **Antigravity CLI** — Lightweight terminal interface (`~/.gemini/antigravity-cli/`).
+4. **Antigravity SDK** — Python SDK for agent development & orchestration (`google-antigravity-sdk`).
+5. **Shared Ecosystem Core** — Global customizations, skills, plugins, rules, and hooks (`~/.gemini/config/`).
 
 This report answers three questions:
 
@@ -25,6 +31,7 @@ This report answers three questions:
 | 5.0 | 2026-08-11 | Live-doc verification run: headless `status` enum + exit codes resolved; `defaultApprovalMode` enum resolved; plugin `agents/` inconsistency confirmed; CLI brain path + transcript schema verified hands-on (new §18.1); Section 10 rebuilt with full flag/stream reference |
 | 5.1 | 2026-08-11 | Full-brain transcript audit (`scripts/audit_transcripts.py`, 49,586 lines / 33 sessions): `type` enum expanded to 19 values (9 promoted with citations); `status` enum confirmed as `DONE`/`RUNNING`/`ERROR` (the `ACTIVE` guess superseded); evidence saved under `audits/` |
 | 5.2 | 2026-08-13 | Automated schema extraction & validation toolkit created (`antigravity-schemas` / `agy-schema` CLI); 9 Pydantic v2 models + JSON Schemas + live system auditor + sync-doc verification implemented |
+| 6.0 | 2026-08-13 | Full Ecosystem Expansion: Expanded scope across Antigravity 2.0 (Desktop app), Antigravity IDE (VS Code fork), Antigravity CLI, Antigravity SDK, and Shared Core (`config/`); updated path inventories and system models |
 
 ## How This Report Was Built
 
